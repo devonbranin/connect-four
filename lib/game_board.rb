@@ -10,7 +10,7 @@ class GameBoard
 
   def generate_placements
     placeholder_array = []
-    placeholder_array.push("🔳") while placeholder_array.length < (COLUMNS * ROWS)
+    placeholder_array.push('🔳') while placeholder_array.length < (COLUMNS * ROWS)
     placeholder_array
   end
 
@@ -29,6 +29,8 @@ class GameBoard
 
   def update_board(column, marker, array = @placements)
     update_index = check_column(column, array)
+    return update_index if update_index.nil?
+
     array[update_index] = marker
     array
   end

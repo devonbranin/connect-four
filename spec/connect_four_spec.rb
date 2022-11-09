@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative '../lib/connect_four'
+require_relative '../lib/game_board'
 
 describe GameBoard do
   describe '#generate_placements' do
@@ -74,6 +74,21 @@ describe GameBoard do
       it 'displays all of the pieces' do
         fourth_piece = game_board.update_board(3, '🔴')
         expect(fourth_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳","🔳","🔳","🟡","🔴","🔳","🔳","🔳"])
+      end
+    end
+    context 'when adding a piece would overflow the board' do
+      subject(:game_board) { described_class.new }
+      before do
+        game_board.update_board(3, '🔴')
+        game_board.update_board(3, '🔴')
+        game_board.update_board(3, '🔴')
+        game_board.update_board(3, '🔴')
+        game_board.update_board(3, '🔴')
+        game_board.update_board(3, '🔴')
+      end
+      it 'returns nil' do
+        overflow_piece = game_board.update_board(3, '🔴')
+        expect(overflow_piece).to eql(nil)
       end
     end
   end
