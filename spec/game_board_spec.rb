@@ -30,7 +30,13 @@ describe GameBoard do
     end
     context 'when the board is not empty' do
       it 'returns a string of boxes with a move placed in the proper place' do
-        result = game_array.print_board(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳"])
+        result = game_array.print_board(%w[
+          🔳 🔳 🔳 🔳 🔳 🔳 🔳
+          🔳 🔳 🔳 🔳 🔳 🔳 🔳
+          🔳 🔳 🔳 🔳 🔳 🔳 🔳
+          🔳 🔳 🔳 🔳 🔳 🔳 🔳
+          🔳 🔳 🔳 🔳 🔳 🔳 🔳
+          🔳 🔳 🔳 🔴 🔳 🔳 🔳])
         expect(result).to eq(" 0 1 2 3 4 5 6\n" +
         "🔳🔳🔳🔳🔳🔳🔳 0\n"+                                                 
         "🔳🔳🔳🔳🔳🔳🔳 1\n" +                                                
@@ -45,23 +51,23 @@ describe GameBoard do
   describe '#update_board' do
     context 'when the first piece is placed in the third column' do
       subject(:game_board) { described_class.new }
-      it 'adds the piece to the board' do
+      it 'returns its position' do
         first_piece = game_board.update_board(3, '🔴')
-        expect(first_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳"])
+        expect(first_piece).to eq(38)
       end
     end
     context 'when the first piece is placed in the fifth column' do
       subject(:game_board) { described_class.new }
-      it 'adds the piece to the board' do
+      it 'returns its position' do
         first_piece = game_board.update_board(5, '🔴')
-        expect(first_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳"])
+        expect(first_piece).to eq(40)
       end
     end
     context 'when there is already a piece in the third column' do
       subject(:game_board) { described_class.new(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳"]) }
-      it 'adds the piece to the board' do
+      it 'returns its position' do
         first_piece = game_board.update_board(3, '🔴')
-        expect(first_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳"])
+        expect(first_piece).to eq(31)
       end
     end
     context 'when adding several pieces in a row' do
@@ -73,7 +79,7 @@ describe GameBoard do
       end
       it 'displays all of the pieces' do
         fourth_piece = game_board.update_board(3, '🔴')
-        expect(fourth_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳","🔳","🔳","🟡","🔴","🔳","🔳","🔳"])
+        expect(fourth_piece).to eq(24)
       end
     end
     context 'when adding a piece would overflow the board' do

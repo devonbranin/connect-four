@@ -29,10 +29,10 @@ class GameBoard
 
   def update_board(column, marker, array = @placements)
     update_index = check_column(column, array)
-    return update_index if update_index.nil?
+    return nil if update_index.nil?
 
     array[update_index] = marker
-    array
+    update_index
   end
 
   private
