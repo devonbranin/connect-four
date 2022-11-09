@@ -28,7 +28,7 @@ describe GameBoard do
         "🔳🔳🔳🔳🔳🔳🔳 5\n")
       end
     end
-    context 'when a move is placed' do
+    context 'when the board is not empty' do
       it 'returns a string of boxes with a move placed in the proper place' do
         result = game_array.print_board(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳"])
         expect(result).to eq(" 0 1 2 3 4 5 6\n" +
@@ -38,6 +38,42 @@ describe GameBoard do
         "🔳🔳🔳🔳🔳🔳🔳 3\n" +                                               
         "🔳🔳🔳🔳🔳🔳🔳 4\n" +                                               
         "🔳🔳🔳🔴🔳🔳🔳 5\n")
+      end
+    end
+  end
+
+  describe '#update_board' do
+    context 'when the first piece is placed in the third column' do
+      subject(:game_board) { described_class.new }
+      it 'adds the piece to the board' do
+        first_piece = game_board.update_board(3, '🔴')
+        expect(first_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳"])
+      end
+    end
+    context 'when the first piece is placed in the fifth column' do
+      subject(:game_board) { described_class.new }
+      it 'adds the piece to the board' do
+        first_piece = game_board.update_board(5, '🔴')
+        expect(first_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳"])
+      end
+    end
+    context 'when there is already a piece in the third column' do
+      subject(:game_board) { described_class.new(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳"]) }
+      it 'adds the piece to the board' do
+        first_piece = game_board.update_board(3, '🔴')
+        expect(first_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳"])
+      end
+    end
+    context 'when adding several pieces in a row' do
+      subject(:game_board) { described_class.new }
+      before do
+        game_board.update_board(3, '🔴')
+        game_board.update_board(2, '🟡')
+        game_board.update_board(3, '🔴')
+      end
+      it 'displays all of the pieces' do
+        fourth_piece = game_board.update_board(3, '🔴')
+        expect(fourth_piece).to eq(["🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳","🔳","🔳","🔳","🔴","🔳","🔳","🔳","🔳","🔳","🟡","🔴","🔳","🔳","🔳"])
       end
     end
   end
