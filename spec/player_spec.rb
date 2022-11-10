@@ -57,5 +57,11 @@ describe Player do
         expect(win_check).to eq(true)
       end
     end
+    context 'when there are many non-winning placements' do
+      it 'returns false' do
+        win_check = winning_player.win?([21, 35, 40, 32, 31, 28])
+        expect(win_check).to eq(false)
+      end
+    end
   end
 end

@@ -21,6 +21,13 @@ class Player
     new_marker
   end
 
+  def prompt_for_move
+    puts 'Which column would you like to place your piece?'
+    placement = gets.chomp
+    response = make_move(placement)
+    prompt_for_move if response == 'That column is full!'
+  end
+
   def win?(array = move_array)
     return true if horizontal_win?(array) == true
     return true if vertical_win?(array) == true
@@ -39,27 +46,24 @@ class Player
   end
 
   def vertical_win?(array = move_array)
-    consecutive_row = ->(a, b) { row_number(a) + row_number(b) == (row_number(a) * 2) + 1 }
-    same_column = ->(a, b) { (a % COLUMNS) == (b % COLUMNS) }
+    vertical = ->(a, b) { a + b == (a * 2) + COLUMNS }
     four_piece_combos = all_fours(array)
-    vert_win = four_piece_combos.filter { |combo| validate_combinations(combo, consecutive_row) }
-    vert_win.any? { |combo| validate_combinations(combo, same_column) }
+    vert_win = four_piece_combos.filter { |combo| validate_combinations(combo, vertical) }
+    vert_win.length.positive?
   end
 
   def diagonal_win?(array = move_array)
-    consecutive_row = ->(a, b) { row_number(a) + row_number(b) == (row_number(a) * 2) + 1 }
-    consecutive_column = ->(a, b) { column_number(a) + column_number(b) == (column_number(a) * 2) + 1 }
+    downward_diagonal = ->(a, b) { a + b == (a * 2) + (COLUMNS + 1) }
     four_piece_combos = all_fours(array)
-    diag_win = four_piece_combos.filter { |combo| validate_combinations(combo, consecutive_row) }
-    diag_win.any? { |combo| validate_combinations(combo, consecutive_column) }
+    diag_win = four_piece_combos.filter { |combo| validate_combinations(combo, downward_diagonal) }
+    diag_win.length.positive?
   end
 
   def other_diagonal_win?(array = move_array)
-    consecutive_row = ->(a, b) { row_number(a) + row_number(b) == (row_number(b) * 2) + 1 }
-    consecutive_column = ->(a, b) { column_number(a) + column_number(b) == (column_number(b) * 2) + 1 }
+    upward_diagonal = ->(a, b) { a + b == (a * 2) + (COLUMNS - 1) }
     four_piece_combos = all_fours(array)
-    diag_win = four_piece_combos.filter { |combo| validate_combinations(combo, consecutive_row) }
-    diag_win.any? { |combo| validate_combinations(combo, consecutive_column) }
+    diag_win = four_piece_combos.filter { |combo| validate_combinations(combo, upward_diagonal) }
+    diag_win.length.positive?
   end
 
   def row_number(number)
@@ -82,7 +86,7 @@ class Player
     while i + 1 < my_array.length
       test = lamb.call(my_array[i], my_array[i+1])
       i += 1
-      next if test == false
+      break if test == false
     end
 
     return false if test == false
