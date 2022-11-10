@@ -24,4 +24,20 @@ describe Player do
       end
     end
   end
+  describe '#win?' do
+    let(:dummy_board) { double('GameBoard') }
+    subject(:winning_player) { described_class.new('🔴', dummy_board) }
+    context 'when there is a horizontal win' do
+      it 'returns true' do
+        win_check = winning_player.win?([0, 1, 2, 3])
+        expect(win_check).to eq(true)
+      end
+    end
+    context 'when there is no win' do
+      it 'returns false' do
+        win_check = winning_player.win?([0, 1, 2, 4])
+        expect(win_check).to eq(false)
+      end
+    end
+  end
 end
