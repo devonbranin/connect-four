@@ -39,5 +39,23 @@ describe Player do
         expect(win_check).to eq(false)
       end
     end
+    context 'when there is a vertical win' do
+      it 'returns true' do
+        win_check = winning_player.win?([41, 34, 27, 20])
+        expect(win_check).to eq(true)
+      end
+    end
+    context 'when there is a diagnonal win' do
+      it 'returns true' do
+        win_check = winning_player.win?([41, 33, 25, 17])
+        expect(win_check).to eq(true)
+      end
+    end
+    context 'when there is a diagnonal win from the other direction' do
+      it 'returns true' do
+        win_check = winning_player.win?([20, 26, 32, 38])
+        expect(win_check).to eq(true)
+      end
+    end
   end
 end

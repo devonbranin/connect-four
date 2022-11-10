@@ -22,7 +22,10 @@ class Player
   end
 
   def win?(array = move_array)
-    horizontal_win?(array)
+    return true if horizontal_win?(array) == true
+    return true if vertical_win?(array) == true
+
+    false
   end
 
   def horizontal_win?(array = move_array)
@@ -31,8 +34,22 @@ class Player
     horiz_win.any? { |combo| all_same_row?(combo) }
   end
 
+  def vertical_win?(array = move_array)
+    four_piece_combos = all_fours(array)
+    vert_win = four_piece_combos.filter { |combo| consecutive_rows?(combo) }
+    vert_win.any? { |combo| all_same_column?(combo) }
+  end
+
   def same_row?(a, b)
     (a / COLUMNS) == (b / COLUMNS)
+  end
+
+  def same_column?(a, b)
+    (a % COLUMNS) == (b % COLUMNS)
+  end
+
+  def row_number(number)
+    number / COLUMNS
   end
 
   def consecutive?(a, b)
@@ -59,6 +76,19 @@ class Player
     true
   end
 
+  def all_same_column?(my_array)
+    i = 0
+    while i + 1 < my_array.length
+      test = same_column?(my_array[i], my_array[i+1])
+      i += 1
+      next if test == false
+    end
+
+    return false if test == false
+
+    true
+  end
+
   def all_consecutive?(my_array)
     i = 0
     while i + 1 < my_array.length
@@ -72,5 +102,16 @@ class Player
     true
   end
 
-    # returns true if every number is consecutive to the one after it
+  def consecutive_rows?(my_array)
+    i = 0
+    while i + 1 < my_array.length
+      test = consecutive?(row_number(my_array[i]), row_number(my_array[i+1]))
+      i += 1
+      next if test == false
+    end
+
+    return false if test == false
+
+    true
+  end
 end
